@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelSharing.Api", "TravelSharing.Api\TravelSharing.Api.csproj", "{39375F38-341B-46E7-84FE-2AF23DB0A4A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelSharing.Application", "TravelSharing.Application\TravelSharing.Application.csproj", "{D5530961-262B-44B6-BCF7-E8489D0799F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelSharing.Infrastructure", "TravelSharing.Infrastructure\TravelSharing.Infrastructure.csproj", "{BFC02138-F027-4B26-B51A-16AD85F97FF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelSharing.Domain", "TravelSharing.Domain\TravelSharing.Domain.csproj", "{032E9010-7025-41F8-8326-92FDCFA4D923}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39375F38-341B-46E7-84FE-2AF23DB0A4A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39375F38-341B-46E7-84FE-2AF23DB0A4A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39375F38-341B-46E7-84FE-2AF23DB0A4A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39375F38-341B-46E7-84FE-2AF23DB0A4A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5530961-262B-44B6-BCF7-E8489D0799F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5530961-262B-44B6-BCF7-E8489D0799F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5530961-262B-44B6-BCF7-E8489D0799F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5530961-262B-44B6-BCF7-E8489D0799F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFC02138-F027-4B26-B51A-16AD85F97FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC02138-F027-4B26-B51A-16AD85F97FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC02138-F027-4B26-B51A-16AD85F97FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC02138-F027-4B26-B51A-16AD85F97FF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{032E9010-7025-41F8-8326-92FDCFA4D923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{032E9010-7025-41F8-8326-92FDCFA4D923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{032E9010-7025-41F8-8326-92FDCFA4D923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{032E9010-7025-41F8-8326-92FDCFA4D923}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

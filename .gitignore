@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio/ .NET specific
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.nupkg
+*.nuget.props
+*.nuget.targets
+*.msbuild.props
+*.msbuild.targets
+publish/
+
+# Node.js / Angular specific
+dist/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+.angular/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+
+# IDE files
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment files (often contain secrets)
+.env
+appsettings.Development.json
+
+# NgRx Store Freeze (Development Only)
+ngrx-store-freeze-lock-file

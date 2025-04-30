@@ -1,0 +1,6 @@
+@TravelSharing_HostAddress = http://localhost:5220
+
+GET {{TravelSharing_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

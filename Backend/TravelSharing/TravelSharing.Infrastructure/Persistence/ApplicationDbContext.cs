@@ -9,9 +9,33 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().HasKey(u => u.Id);
-        modelBuilder.Entity<User>().Property(u => u.Email).IsRequired().HasMaxLength(256);
+         base.OnModelCreating(modelBuilder); 
+         
+         modelBuilder.Entity<User>(entity =>
+         {
+             entity.ToTable("Users");
 
-        base.OnModelCreating(modelBuilder);
+             entity.HasKey(u => u.Id);
+             
+             entity.Property(u => u.Name)
+                 .IsRequired()
+                 .HasMaxLength(100);
+             
+             entity.Property(u => u.Email)
+                 .IsRequired()
+                 .HasMaxLength(256);
+             entity.HasIndex(u => u.Email).IsUnique(); 
+             
+             entity.Property(u => u.PhoneNumber)
+                 .HasMaxLength(20); 
+
+             entity.Property(u => u.Reputation)
+                 .HasDefaultValue(0.0); 
+             
+             entity.Property(u => u.VehicleDetails)
+                 .HasMaxLength(500);
+         });
+
+
     }
 }

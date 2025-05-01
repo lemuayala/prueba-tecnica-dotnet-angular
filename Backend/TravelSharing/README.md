@@ -27,8 +27,8 @@ El proyecto sigue una arquitectura limpia por capas (Domain, Application, Infras
 
 1.  **Clonar el Repositorio:**
     ```bash
-    git clone <tu-url-del-repositorio>
-    cd <nombre-del-repositorio>/backend
+    git clone https://github.com/lemuayala/prueba-tecnica-dotnet-angular.git
+    cd prueba-tecnica-dotnet-angular/backend
     ```
 2.  **Configurar la Cadena de Conexión:**
     *   Asegúrate de tener un servidor MySQL en ejecución.
@@ -47,7 +47,7 @@ El proyecto sigue una arquitectura limpia por capas (Domain, Application, Infras
     dotnet restore
     ```
 4.  **Aplicar Migraciones de Base de Datos:**
-    Desde la carpeta raíz del repositorio (`<nombre-del-repositorio>`) o la carpeta `backend`:
+    Desde la carpeta raíz del repositorio (`prueba-tecnica-dotnet-angular`) o la carpeta `backend`:
     ```bash
     dotnet ef database update --project backend/TravelSharing.Api --startup-project backend/TravelSharing.Api
     ```

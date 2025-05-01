@@ -18,6 +18,7 @@ public class UserService : IUserService
     , ILogger<UserService>? logger = null)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _logger = logger;
     }
 

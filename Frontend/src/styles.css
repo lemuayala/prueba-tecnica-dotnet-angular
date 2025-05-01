@@ -3,4 +3,4 @@
 @plugin "tailwindcss-primeui";
 
 /* dark mode configuration */
-@custom-variant dark (&:where(.my-app-dark, .my-app-dark *));
+/* @custom-variant dark (&:where(.my-app-dark, .my-app-dark *)); */

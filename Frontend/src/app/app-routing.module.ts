@@ -14,6 +14,7 @@ const routes: Routes = [
     ],
     children: [
       { path: 'new', component: UserFormComponent },
+      { path: 'edit/:id', component: UserFormComponent },
       { path: 'list', component: UserListComponent },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
     ],

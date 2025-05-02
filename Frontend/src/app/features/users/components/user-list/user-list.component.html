@@ -1,0 +1,90 @@
+<div class="mx-auto p-4 md:p-8">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl md:text-3xl font-bold">Lista de Usuarios</h2>
+    <p-button
+      label="Nuevo Usuario"
+      icon="pi pi-plus"
+      styleClass="p-button-success"
+      (click)="navigateToCreateUser()"
+    ></p-button>
+  </div>
+
+  <!-- Indicador de Carga -->
+  <div
+    *ngIf="loading$ | async"
+    class="flex justify-center items-center my-8 text-gray-600"
+  >
+    <p-progressSpinner styleClass="w-8 h-8" strokeWidth="4"></p-progressSpinner>
+    <span class="ml-2">Cargando usuarios...</span>
+  </div>
+
+  <!-- Mensaje de Error -->
+  <p-message
+    *ngIf="error$ | async as error"
+    severity="error"
+    styleClass="mb-4"
+    text="Ups! Hubo un error al cargar los usuarios: {{
+      error?.message || error | json
+    }}"
+  ></p-message>
+
+  <!-- Tabla de Usuarios -->
+  <div class="card shadow-md rounded-lg overflow-hidden">
+    <!-- Contenedor con sombra y bordes redondeados -->
+    <p-table
+      *ngIf="!(loading$ | async) && !(error$ | async)"
+      [value]="(users$ | async) ?? []"
+      [tableStyle]="{ 'min-width': '60rem' }"
+      styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} usuarios"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name" class="text-left">
+            Nombre <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="email" class="text-left">
+            Email <p-sortIcon field="email"></p-sortIcon>
+          </th>
+          <th class="text-left">Teléfono</th>
+          <th class="text-left">Vehículo</th>
+          <th class="text-center">Acciones</th>
+          <!-- Centramos las acciones -->
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phoneNumber }}</td>
+          <td>{{ user.vehicleDetails || "N/A" }}</td>
+          <td class="text-center">
+            <!-- Centramos los botones -->
+            <p-button
+              icon="pi pi-pencil"
+              styleClass="p-button-sm p-button-info p-button-rounded p-button-text mr-2"
+              (click)="editUser(user.id)"
+            ></p-button>
+            <p-button
+              icon="pi pi-trash"
+              styleClass="p-button-sm p-button-danger p-button-rounded p-button-text"
+              (click)="deleteUser(user.id)"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="text-center py-4 text-gray-500">
+            No se encontraron usuarios.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

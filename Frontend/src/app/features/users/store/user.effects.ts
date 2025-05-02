@@ -16,13 +16,11 @@ import { Update } from '@ngrx/entity';
 
 @Injectable()
 export class UserEffects {
-  // Inyecta las dependencias usando la función inject()
   private actions$ = inject(Actions);
   private userService = inject(UserService);
 
   loadUsers$ = createEffect(() => {
     return this.actions$.pipe(
-      // Ahora this.actions$ debería estar inicializado correctamente
       ofType(UserActions.loadUsers),
       // Usa switchMap para cancelar peticiones anteriores si se dispara de nuevo rápidamente
       switchMap(() =>
@@ -36,7 +34,6 @@ export class UserEffects {
 
   createUser$ = createEffect(() => {
     return this.actions$.pipe(
-      // Usa el actions$ inyectado
       ofType(UserActions.createUser),
       // Usa concatMap para procesar creaciones en orden
       concatMap((action) =>
@@ -50,7 +47,6 @@ export class UserEffects {
 
   updateUser$ = createEffect(() => {
     return this.actions$.pipe(
-      // Usa el actions$ inyectado
       ofType(UserActions.updateUser),
       // Usa concatMap para procesar actualizaciones en orden
       concatMap((action) =>
@@ -68,7 +64,6 @@ export class UserEffects {
 
   deleteUser$ = createEffect(() => {
     return this.actions$.pipe(
-      // Usa el actions$ inyectado
       ofType(UserActions.deleteUser),
       // Usa mergeMap para permitir borrados en paralelo si es necesario
       mergeMap((action) =>
@@ -79,7 +74,4 @@ export class UserEffects {
       )
     );
   });
-
-  // El constructor puede quedar vacío si solo se usaba para inyección
-  // constructor() {}
 }

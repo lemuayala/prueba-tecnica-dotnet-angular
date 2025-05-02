@@ -13,6 +13,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { UserEffects } from './features/users/store/user.effects';
 import { NgrxFormsModule } from 'ngrx-forms';
 import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,18 +23,23 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     NgrxFormsModule,
+    ButtonModule,
   ],
   providers: [
     provideAnimationsAsync(),
     providePrimeNG({
+      // <-- Configuración de PrimeNG
       theme: {
         options: {
+          prefix: 'p',
           cssLayer: {
             name: 'primeng',
-            order: 'theme, base, primeng',
+            order: 'theme, base, components',
           },
         },
+        preset: Aura,
       },
+      inputStyle: 'outlined',
     }),
     provideHttpClient(),
     provideStore(),

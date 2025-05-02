@@ -15,5 +15,6 @@ export interface CreateUserDto {
 }
 
 export interface UpdateUserDto extends CreateUserDto {
+  id: string;
   reputation?: number;
 }

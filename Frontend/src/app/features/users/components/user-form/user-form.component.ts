@@ -13,11 +13,25 @@ import { USER_FORM_ID } from '../../store/user.reducer';
 import { take } from 'rxjs';
 import { CreateUserDto } from '../../models/user.model';
 import { UserActions } from '../../store/user.actions';
-import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputMaskModule } from 'primeng/inputmask';
+import { ButtonModule } from 'primeng/button';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-user-form',
-  imports: [CommonModule, FormsModule, NgrxFormsModule],
+  imports: [
+    CommonModule,
+    NgrxFormsModule,
+    InputMaskModule,
+    InputTextModule,
+    ButtonModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    CardModule,
+  ],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css',
   standalone: true,

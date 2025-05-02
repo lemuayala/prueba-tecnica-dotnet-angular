@@ -51,9 +51,8 @@ export class UserListComponent implements OnInit {
     this.store.dispatch(UserActions.deleteUser({ id: userId }));
   }
 
-  editUser(user: UpdateUserDto): void {
-    // Despacha la acción para editar el usuario
-    this.store.dispatch(UserActions.updateUser({ id: user.id, user: user }));
+  editUser(userId: string): void {
+    this.router.navigate(['/users/edit', userId]);
   }
 
   navigateToCreateUser(): void {

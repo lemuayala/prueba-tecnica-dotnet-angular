@@ -5,7 +5,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; // Importa ActivatedRoute y Router
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MarkAsSubmittedAction, NgrxFormsModule } from 'ngrx-forms';
 import { FormControlState, SetUserDefinedPropertyAction } from 'ngrx-forms';
@@ -13,7 +13,7 @@ import {
   selectUserById,
   selectUserCreating,
   selectUserFormState,
-} from '../../store/user.selectors'; // Importa selectores necesarios
+} from '../../store/user.selectors';
 import { USER_FORM_ID } from '../../store/user.reducer';
 import { take } from 'rxjs';
 import { CreateUserDto, UpdateUserDto } from '../../models/user.model';
@@ -24,7 +24,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { CardModule } from 'primeng/card';
-import { filter, map, switchMap } from 'rxjs/operators'; // Importa operadores RxJS
+import { filter, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-form',

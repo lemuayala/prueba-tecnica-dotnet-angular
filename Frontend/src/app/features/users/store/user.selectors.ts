@@ -28,6 +28,11 @@ export const selectUserError = createSelector(
   (state: UserEntityState) => state.error
 );
 
+export const selectUserCreating = createSelector(
+  selectUsers,
+  (state: UserEntityState) => state.creating
+);
+
 // Selector para el estado del formulario de usuario usando ngrx-forms
 export const selectUserFormState = selectUserForm;
 

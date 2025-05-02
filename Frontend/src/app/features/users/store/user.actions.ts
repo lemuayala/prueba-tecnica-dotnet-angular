@@ -1,6 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity'; // Para actualizaciones parciales
 import { User, CreateUserDto, UpdateUserDto } from '../models/user.model';
+import { UserFormValue } from './user.reducer'; // Importa el tipo del valor del formulario
 
 export const UserApiActions = createActionGroup({
   source: 'User API',
@@ -27,4 +28,12 @@ export const UserApiActions = createActionGroup({
   },
 });
 
-export const UserActions = { ...UserApiActions };
+export const UserFormActions = createActionGroup({
+  source: 'User Form',
+  events: {
+    'Set Form Value': props<{ user: UserFormValue }>(),
+    'Reset Form': emptyProps(),
+  },
+});
+
+export const UserActions = { ...UserApiActions, ...UserFormActions };

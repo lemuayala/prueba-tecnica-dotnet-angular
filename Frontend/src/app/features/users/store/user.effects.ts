@@ -7,17 +7,23 @@ import {
   concatMap,
   switchMap,
   mergeMap,
+  tap,
 } from 'rxjs/operators';
 
 import { UserService } from '../services/user.service';
 import { UserActions } from './user.actions';
 import { User } from '../models/user.model';
-import { Update } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Injectable()
 export class UserEffects {
   private actions$ = inject(Actions);
   private userService = inject(UserService);
+  private store = inject(Store);
+  private router = inject(Router);
+  private messageService = inject(MessageService);
 
   loadUsers$ = createEffect(() => {
     return this.actions$.pipe(
@@ -74,4 +80,78 @@ export class UserEffects {
       )
     );
   });
+
+  // Efecto para mostrar toast de éxito y navegar después de crear (YA ESTABA)
+  createUserSuccess$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UserActions.createUserSuccess),
+        tap(({ user }) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: `Usuario ${user.name} creado correctamente.`,
+          });
+          this.router.navigate(['/users/list']); // Navega a la lista
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  // Efecto para mostrar toast de error al crear
+  createUserFailure$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UserActions.createUserFailure),
+        tap(({ error }) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: `Error al crear usuario: ${
+              error.message || 'Intente de nuevo'
+            }`,
+          });
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  // Efecto para mostrar toast de éxito al actualizar
+  updateUserSuccess$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UserActions.updateUserSuccess),
+        tap(({ user }) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: `Usuario actualizado correctamente.`,
+          });
+          this.router.navigate(['/users/list']);
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  // Efecto para mostrar toast de error al actualizar
+  updateUserFailure$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UserActions.updateUserFailure),
+        tap(({ error }) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: `Error al actualizar usuario: ${
+              error.message || 'Intente de nuevo'
+            }`,
+          });
+        })
+      );
+    },
+    { dispatch: false }
+  );
 }

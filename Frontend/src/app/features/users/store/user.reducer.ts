@@ -4,6 +4,7 @@ import {
   createFormGroupState,
   onNgrxForms,
   updateGroup,
+  setValue,
   wrapReducerWithFormStateUpdate,
   validate,
 } from 'ngrx-forms';
@@ -29,6 +30,8 @@ export interface UserEntityState extends EntityState<User> {
   selectedUserId: string | null;
   loading: boolean;
   error: any | null;
+  creating: boolean;
+  createError: any | null;
 }
 
 export const userAdapter: EntityAdapter<User> = createEntityAdapter<User>();
@@ -38,6 +41,8 @@ export const initialUserEntityState: UserEntityState =
     selectedUserId: null,
     loading: false,
     error: null,
+    creating: false,
+    createError: null,
   });
 
 // Combina el estado de la entidad y el estado del formulario
@@ -82,9 +87,36 @@ const userFeatureReducer = createReducer(
     ...state,
     users: { ...state.users, loading: false, error },
   })),
+
+  // Acciones de Crear Usuario (ya estaban)
+  on(UserActions.createUser, (state) => ({
+    ...state,
+    users: { ...state.users, creating: true, createError: null },
+  })),
+  on(UserActions.createUserSuccess, (state, { user }) => ({
+    ...state,
+    users: userAdapter.addOne(user, { ...state.users, creating: false }),
+  })),
+  on(UserActions.createUserFailure, (state, { error }) => ({
+    ...state,
+    users: { ...state.users, creating: false, createError: error },
+  })),
+
   on(UserActions.deleteUserSuccess, (state, { id }) => ({
     ...state,
     users: userAdapter.removeOne(id, state.users),
+  })),
+
+  // Acciones para manejar el estado del formulario explícitamente
+  on(UserActions.setFormValue, (state, { user }) => ({
+    ...state,
+    // Usamos setValue para reemplazar completamente el valor del formulario
+    userForm: setValue(state.userForm, user),
+  })),
+  on(UserActions.resetForm, (state) => ({
+    ...state,
+    // Reseteamos al estado inicial del formulario
+    userForm: initialUserFormState,
   }))
 );
 

@@ -14,6 +14,8 @@ import { UserEffects } from './features/users/store/user.effects';
 import { NgrxFormsModule } from 'ngrx-forms';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +26,7 @@ import { ButtonModule } from 'primeng/button';
     FormsModule,
     NgrxFormsModule,
     ButtonModule,
+    ToastModule,
   ],
   providers: [
     provideAnimationsAsync(),
@@ -45,6 +48,7 @@ import { ButtonModule } from 'primeng/button';
     provideStore(),
     provideEffects(UserEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    MessageService,
   ],
   bootstrap: [AppComponent],
 })

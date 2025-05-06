@@ -96,7 +96,7 @@ Necesitas ejecutar ambos proyectos simultáneamente:
 
 ## Próximos Pasos / Características Planeadas 🎯
 
-*   (Aquí puedes añadir futuras funcionalidades: Autenticación, Reservas, Perfiles de usuario, etc.)
+*   (Autenticación, Reservas, Perfiles de usuario)
 *   Mejoras en UI/UX.
 
 ---

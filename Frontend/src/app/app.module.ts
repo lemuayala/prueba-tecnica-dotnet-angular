@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
+import Material from '@primeng/themes/material';
 import { provideHttpClient } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
@@ -40,7 +40,7 @@ import { MessageService } from 'primeng/api';
             order: 'theme, base, components',
           },
         },
-        preset: Aura,
+        preset: Material,
       },
       inputStyle: 'outlined',
     }),

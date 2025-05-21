@@ -6,7 +6,12 @@ import { UserFormComponent } from './features/users/components/user-form/user-fo
 import { UserListComponent } from './features/users/components/user-list/user-list.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/users', pathMatch: 'full' },
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./features/auth/auth.module').then((m) => m.AuthModule),
+  },
   {
     path: 'users',
     providers: [

@@ -1,0 +1,12 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+
+    p-card {
+        width: 100%;
+        max-width: 400px;
+    }
+}

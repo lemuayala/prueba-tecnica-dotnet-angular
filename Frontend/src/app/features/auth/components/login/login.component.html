@@ -1,0 +1,35 @@
+<div class="flex flex-col items-center justify-center min-h-screen p-4">
+    <p-card header="Iniciar Sesión" styleClass="w-full max-w-md shadow-xl rounded-lg">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+            <div>
+                <p-floatLabel>
+                    <input pInputText id="email" type="email" formControlName="email" class="w-full" />
+                    <label for="email">Correo Electrónico</label>
+                </p-floatLabel>
+                <small
+                    *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)"
+                    class="text-red-600 text-xs mt-1 block">
+                    <span *ngIf="loginForm.get('email')?.errors?.['required']">El correo es requerido.</span>
+                    <span *ngIf="loginForm.get('email')?.errors?.['email']">Correo inválido.</span>
+                </small>
+            </div>
+
+            <div>
+                <p-floatLabel>
+                    <p-password id="password" formControlName="password" [toggleMask]="true" [feedback]="false"
+                        styleClass="w-full" inputStyleClass="w-full">
+                    </p-password>
+                    <label for="password">Contraseña</label>
+                </p-floatLabel>
+                <small
+                    *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)"
+                    class="text-red-600 text-xs mt-1 block">
+                    <span *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es requerida.</span>
+                </small>
+            </div>
+
+            <p-button type="submit" label="Ingresar" icon="pi pi-sign-in" [disabled]="loginForm.invalid"
+                styleClass="w-full"></p-button>
+        </form>
+    </p-card>
+</div>

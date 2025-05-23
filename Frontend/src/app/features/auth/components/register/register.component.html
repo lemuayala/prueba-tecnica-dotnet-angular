@@ -1,0 +1,90 @@
+<div class="flex flex-col items-center justify-center min-h-screen p-4">
+    <p-card styleClass="w-full max-w-2xl shadow-xl rounded-lg">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold">Crear Cuenta</h2>
+            <p class="text-gray-400 pt-2">Completa el formulario para registrarte.</p>
+        </div>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-7">
+            <!-- Nombre Completo -->
+            <div>
+                <p-floatLabel>
+                    <input pInputText id="name" type="text" formControlName="name" class="w-full" />
+                    <label for="name">Nombre Completo</label>
+                </p-floatLabel>
+                <div *ngIf="registerForm.get('name')?.invalid && (registerForm.get('name')?.dirty || registerForm.get('name')?.touched)"
+                    class="p-error text-xs mt-1">
+                    <span *ngIf="registerForm.get('name')?.errors?.['required']">El nombre es requerido.</span>
+                </div>
+            </div>
+
+            <!-- Correo Electrónico -->
+            <div>
+                <p-floatLabel>
+                    <input pInputText id="email" type="email" formControlName="email" class="w-full" />
+                    <label for="email">Correo Electrónico</label>
+                </p-floatLabel>
+                <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)"
+                    class="p-error text-xs mt-1">
+                    <span *ngIf="registerForm.get('email')?.errors?.['required']">El correo es requerido.</span>
+                    <span *ngIf="registerForm.get('email')?.errors?.['email']">Formato de correo inválido.</span>
+                </div>
+            </div>
+
+            <!-- Número de Teléfono -->
+            <div>
+                <p-floatLabel>
+                    <input pInputText id="phoneNumber" type="tel" formControlName="phoneNumber" class="w-full" />
+                    <label for="phoneNumber">Número de Teléfono</label>
+                </p-floatLabel>
+                <div *ngIf="registerForm.get('phoneNumber')?.invalid && (registerForm.get('phoneNumber')?.dirty || registerForm.get('phoneNumber')?.touched)"
+                    class="p-error text-xs mt-1">
+                    <span *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">El número de teléfono es requerido.</span>
+                </div>
+            </div>
+
+            <!-- Contraseña -->
+            <div>
+                <p-floatLabel>
+                    <p-password id="password" formControlName="password" [toggleMask]="true" styleClass="w-full" inputStyleClass="w-full" [feedback]="false"></p-password>
+                    <label for="password">Contraseña</label>
+                </p-floatLabel>
+                <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
+                    class="p-error text-xs mt-1">
+                    <span *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es requerida.</span>
+                    <span *ngIf="registerForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</span>
+                </div>
+            </div>
+
+            <!-- Confirmar Contraseña -->
+            <div>
+                <p-floatLabel>
+                    <p-password id="confirmPassword" formControlName="confirmPassword" [toggleMask]="true" styleClass="w-full" inputStyleClass="w-full" [feedback]="false"></p-password>
+                    <label for="confirmPassword">Confirmar Contraseña</label>
+                </p-floatLabel>
+                <div *ngIf="(registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)) || (registerForm.errors?.['passwordsMismatch'] && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched))"
+                    class="p-error text-xs mt-1">
+                    <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirmar la contraseña es requerido.</span>
+                    <span *ngIf="registerForm.errors?.['passwordsMismatch'] && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)">Las contraseñas no coinciden.</span>
+                </div>
+            </div>
+
+            <!-- Detalles del Vehículo (Opcional) -->
+            <div>
+                <p-floatLabel>
+                    <input pInputText id="vehicleDetails" type="text" formControlName="vehicleDetails" class="w-full" />
+                    <label for="vehicleDetails">Detalles del Vehículo (Opcional)</label>
+                </p-floatLabel>
+            </div>
+
+            <!-- Botón de Registro -->
+            <p-button type="submit" label="Registrarse" icon="pi pi-user-plus" [disabled]="registerForm.invalid"
+                styleClass="w-full p-button-lg"></p-button>
+
+            <!-- Enlace a Iniciar Sesión -->
+            <div class="text-center mt-6">
+                <span class="text-sm text-gray-600">¿Ya tenés una cuenta? </span>
+                <a routerLink="/auth/login" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Iniciá Sesión</a>
+            </div>
+        </form>
+    </p-card>
+</div>

@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 // PrimeNG Modules para el formulario de login
 import { CardModule } from 'primeng/card';
@@ -13,7 +14,7 @@ import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent,RegisterComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -23,6 +24,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     PasswordModule,
     ButtonModule,
     FloatLabelModule,
+    
   ],
 })
 export class AuthModule {}

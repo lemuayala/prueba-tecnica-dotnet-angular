@@ -1,6 +1,9 @@
 <div class="flex flex-col items-center justify-center min-h-screen p-4">
-    <p-card header="Iniciar Sesión" styleClass="w-full max-w-md shadow-xl rounded-lg">
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <p-card styleClass="w-full max-w-2xl shadow-xl rounded-lg">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-semibold">Iniciá Sesión</h2>
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-8">
             <div>
                 <p-floatLabel>
                     <input pInputText id="email" type="email" formControlName="email" class="w-full" />
@@ -8,7 +11,7 @@
                 </p-floatLabel>
                 <small
                     *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)"
-                    class="text-red-600 text-xs mt-1 block">
+                    class="text-red-500/80 text-xs mt-1 block">
                     <span *ngIf="loginForm.get('email')?.errors?.['required']">El correo es requerido.</span>
                     <span *ngIf="loginForm.get('email')?.errors?.['email']">Correo inválido.</span>
                 </small>
@@ -23,13 +26,18 @@
                 </p-floatLabel>
                 <small
                     *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)"
-                    class="text-red-600 text-xs mt-1 block">
+                    class="text-red-500/80 text-xs mt-1 block">
                     <span *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es requerida.</span>
                 </small>
             </div>
 
             <p-button type="submit" label="Ingresar" icon="pi pi-sign-in" [disabled]="loginForm.invalid"
                 styleClass="w-full"></p-button>
+
+            <div class="text-center mt-6">
+                <span class="text-sm text-gray-400">¿No tenés una cuenta? </span>
+                <a routerLink="/auth/register" class="text-sm font-medium text-primary-500/90 hover:underline dark:text-primary-500">Registrate acá.</a>
+            </div>
         </form>
     </p-card>
 </div>

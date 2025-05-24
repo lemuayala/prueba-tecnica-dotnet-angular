@@ -8,4 +8,5 @@ public class UserDto
     public string Email { get; set; } = string.Empty;
     public double Reputation { get; set; }
     public string? VehicleDetails { get; set; }
+    public string Role { get; set; } = string.Empty;
 }

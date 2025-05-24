@@ -43,5 +43,10 @@ namespace TravelSharing.Infrastructure.Persistence.Repositories
         {
             return await _context.Users.Where(predicate).ToListAsync();
         }
+
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
     }
 }

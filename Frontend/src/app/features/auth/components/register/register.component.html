@@ -38,33 +38,40 @@
                 </p-floatLabel>
                 <div *ngIf="registerForm.get('phoneNumber')?.invalid && (registerForm.get('phoneNumber')?.dirty || registerForm.get('phoneNumber')?.touched)"
                     class="p-error text-xs mt-1">
-                    <span *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">El número de teléfono es requerido.</span>
+                    <span *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">El número de teléfono es
+                        requerido.</span>
                 </div>
             </div>
 
             <!-- Contraseña -->
             <div>
                 <p-floatLabel>
-                    <p-password id="password" formControlName="password" [toggleMask]="true" styleClass="w-full" inputStyleClass="w-full" [feedback]="false"></p-password>
+                    <p-password id="password" formControlName="password" [toggleMask]="true" styleClass="w-full"
+                        inputStyleClass="w-full" [feedback]="false"></p-password>
                     <label for="password">Contraseña</label>
                 </p-floatLabel>
                 <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
                     class="p-error text-xs mt-1">
                     <span *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es requerida.</span>
-                    <span *ngIf="registerForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</span>
+                    <span *ngIf="registerForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos
+                        6 caracteres.</span>
                 </div>
             </div>
 
             <!-- Confirmar Contraseña -->
             <div>
                 <p-floatLabel>
-                    <p-password id="confirmPassword" formControlName="confirmPassword" [toggleMask]="true" styleClass="w-full" inputStyleClass="w-full" [feedback]="false"></p-password>
+                    <p-password id="confirmPassword" formControlName="confirmPassword" [toggleMask]="true"
+                        styleClass="w-full" inputStyleClass="w-full" [feedback]="false"></p-password>
                     <label for="confirmPassword">Confirmar Contraseña</label>
                 </p-floatLabel>
                 <div *ngIf="(registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)) || (registerForm.errors?.['passwordsMismatch'] && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched))"
                     class="p-error text-xs mt-1">
-                    <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirmar la contraseña es requerido.</span>
-                    <span *ngIf="registerForm.errors?.['passwordsMismatch'] && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)">Las contraseñas no coinciden.</span>
+                    <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirmar la contraseña es
+                        requerido.</span>
+                    <span
+                        *ngIf="registerForm.errors?.['passwordsMismatch'] && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)">Las
+                        contraseñas no coinciden.</span>
                 </div>
             </div>
 
@@ -77,13 +84,16 @@
             </div>
 
             <!-- Botón de Registro -->
-            <p-button type="submit" label="Registrarse" icon="pi pi-user-plus" [disabled]="registerForm.invalid"
-                styleClass="w-full p-button-lg"></p-button>
+            <p-button type="submit" label="Registrarse" icon="pi pi-user-plus"
+                [disabled]="registerForm.invalid || (isRegistering$ | async)" [loading]="isRegistering$ | async"
+                styleClass="w-full p-button-lg">
+            </p-button>
 
             <!-- Enlace a Iniciar Sesión -->
             <div class="text-center mt-6">
                 <span class="text-sm text-gray-600">¿Ya tenés una cuenta? </span>
-                <a routerLink="/auth/login" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Iniciá Sesión</a>
+                <a routerLink="/auth/login"
+                    class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Iniciá Sesión</a>
             </div>
         </form>
     </p-card>

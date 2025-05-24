@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { selectUserRegisterError, selectUserRegistering } from '../../../users/store/user.selectors';
+import { RegisterUserDto } from '../../../users/models/auth.model';
+import { UserActions } from '../../../users/store/user.actions';
 
 @Component({
   selector: 'app-register',
@@ -7,42 +13,60 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
   styleUrl: './register.component.css',
   standalone: false,
 })
-export class RegisterComponent {
-  registerForm: FormGroup;
+export class RegisterComponent implements OnInit, OnDestroy {
+  private fb = inject(FormBuilder);
+  private store = inject(Store);
 
-  passwordsMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const password = control.get('password');
-    const confirmPassword = control.get('confirmPassword');
+  registerForm!: FormGroup;
+  isRegistering$!: Observable<boolean>;
+  registerError$!: Observable<any | null>;
 
-    // Si los campos aún no existen o no tienen valor, no validar aún
-    if (!password || !confirmPassword || !password.value || !confirmPassword.value) {
-      return null;
-    }
+  private subscriptions = new Subscription();
 
-    return password.value === confirmPassword.value ? null : { passwordsMismatch: true };
-  };
-
-  constructor(private fb: FormBuilder) {
-    this.registerForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required],
-      vehicleDetails: [''] 
-    }, { validators: this.passwordsMatchValidator });
+  // Validador personalizado para comparar contraseñas
+  static passwordsMatch(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { passwordsMismatch: true };
   }
 
-  onSubmit(): void {
+  ngOnInit(): void {
+    this.registerForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+      vehicleDetails: ['']
+    }, { validators: RegisterComponent.passwordsMatch });
+
+    this.isRegistering$ = this.store.select(selectUserRegistering);
+    this.registerError$ = this.store.select(selectUserRegisterError);
+
+    this.subscriptions.add(
+      this.registerError$.subscribe(error => {
+        if (error && error.message) {
+          if (error.message.toLowerCase().includes('email') || error.message.toLowerCase().includes('correo')) {
+            this.registerForm.get('email')?.setErrors({ serverError: error.message });
+          }
+        }
+      })
+    );
+  }
+
+   onSubmit(): void {
     if (this.registerForm.invalid) {
-      // Marcar todos los campos como 'touched' para mostrar errores si es necesario
-      Object.values(this.registerForm.controls).forEach(control => {
-        control.markAsTouched();
-      });
-      console.log('Formulario de registro inválido');
+      this.registerForm.markAllAsTouched(); // Marcar todos los campos como tocados para mostrar errores
       return;
     }
-    console.log('Formulario de registro enviado (simulación):', this.registerForm.value);
-    // Aquí irá la lógica de registro real más adelante
+
+    const { confirmPassword, ...formData } = this.registerForm.value;
+    const registerDto: RegisterUserDto = formData;
+
+    this.store.dispatch(UserActions.registerUser({ user: registerDto }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

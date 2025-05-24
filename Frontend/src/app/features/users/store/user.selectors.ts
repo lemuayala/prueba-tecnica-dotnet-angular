@@ -38,3 +38,14 @@ export const selectUserFormState = selectUserForm;
 
 export const selectUserById = (id: string) =>
   createSelector(selectUserEntities, (entities) => entities[id]);
+
+// Selectores para el estado de registro
+export const selectUserRegistering = createSelector(
+  selectUsers, 
+  (state: UserEntityState) => state.registering
+);
+
+export const selectUserRegisterError = createSelector(
+  selectUsers,
+  (state: UserEntityState) => state.registerError
+);

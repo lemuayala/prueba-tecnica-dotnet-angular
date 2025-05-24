@@ -8,6 +8,7 @@ import {
   switchMap,
   mergeMap,
   tap,
+  exhaustMap,
 } from 'rxjs/operators';
 
 import { UserService } from '../services/user.service';
@@ -108,9 +109,8 @@ export class UserEffects {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: `Error al crear usuario: ${
-              error.message || 'Intente de nuevo'
-            }`,
+            detail: `Error al crear usuario: ${error.message || 'Intente de nuevo'
+              }`,
           });
         })
       );
@@ -145,9 +145,59 @@ export class UserEffects {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: `Error al actualizar usuario: ${
-              error.message || 'Intente de nuevo'
-            }`,
+            detail: `Error al actualizar usuario: ${error.message || 'Intente de nuevo'
+              }`,
+          });
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  // Efecto para el registro de usuario
+  registerUser$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.registerUser),
+      exhaustMap((action) =>
+        this.userService.registerUser(action.user).pipe(
+          map((user: User) => UserActions.registerUserSuccess({ user })),
+          catchError((error) => of(UserActions.registerUserFailure({ error })))
+        )
+      )
+    );
+  });
+
+  // Efecto para mostrar toast de éxito y navegar después del registro
+  registerUserSuccess$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UserActions.registerUserSuccess),
+        tap(({ user }) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Registro Exitoso',
+            detail: `¡Bienvenido, ${user.name}! Tu cuenta ha sido creada.`,
+          });
+          this.router.navigate(['/auth/login']);
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  // Efecto para mostrar toast de error al registrar
+  registerUserFailure$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UserActions.registerUserFailure),
+        tap(({ error }) => {
+          const detail = error?.error?.message ||
+            error?.message ||
+            'Ocurrió un error. Intente de nuevo.';
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error de Registro',
+            detail: detail,
           });
         })
       );

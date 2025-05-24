@@ -32,6 +32,8 @@ export interface UserEntityState extends EntityState<User> {
   error: any | null;
   creating: boolean;
   createError: any | null;
+  registering: boolean;
+  registerError: any | null; 
 }
 
 export const userAdapter: EntityAdapter<User> = createEntityAdapter<User>();
@@ -43,6 +45,8 @@ export const initialUserEntityState: UserEntityState =
     error: null,
     creating: false,
     createError: null,
+    registering: false,
+    registerError: null,
   });
 
 // Combina el estado de la entidad y el estado del formulario
@@ -100,6 +104,21 @@ const userFeatureReducer = createReducer(
   on(UserActions.createUserFailure, (state, { error }) => ({
     ...state,
     users: { ...state.users, creating: false, createError: error },
+  })),
+  
+  // Acciones para el Registro de Usuario
+  on(UserActions.registerUser, (state) => ({
+    ...state,
+    users: { ...state.users, registering: true, registerError: null },
+  })),
+  on(UserActions.registerUserSuccess, (state, { user }) => ({
+    ...state,
+  
+    users: userAdapter.addOne(user, { ...state.users, registering: false }),
+  })),
+  on(UserActions.registerUserFailure, (state, { error }) => ({
+    ...state,
+    users: { ...state.users, registering: false, registerError: error },
   })),
 
   on(UserActions.deleteUserSuccess, (state, { id }) => ({

@@ -1,5 +1,6 @@
 
 
+using TravelSharing.Application.DTOs.Auth;
 using TravelSharing.Application.DTOs.User;
 
 namespace TravelSharing.Application.Interfaces;
@@ -41,4 +42,10 @@ public interface IUserService
     /// <returns>True si la eliminación fue exitosa, False si el usuario no se encontró.</returns>
     Task<bool> DeleteUserAsync(Guid id);
 
+    /// <summary>
+    /// Registro público de un usuario de la app
+    /// </summary>
+    /// <param name="registerUserDto"></param>
+    /// <returns>El DTO del usuario recién creado.</returns>
+    Task<UserDto> RegisterUserAsync(RegisterUserDto registerUserDto);
 }

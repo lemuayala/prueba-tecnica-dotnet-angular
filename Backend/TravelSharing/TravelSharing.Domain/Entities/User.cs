@@ -7,5 +7,8 @@ public class User
     public string PhoneNumber { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public double Reputation { get; set; } = 0.0;
-    public string? VehicleDetails { get; set; } 
+    public string? VehicleDetails { get; set; }
+    public string PasswordHash { get; set; } = string.Empty;
+    public string PasswordSalt { get; set; } = string.Empty;
+    public string Role { get; set; } = string.Empty;
 }

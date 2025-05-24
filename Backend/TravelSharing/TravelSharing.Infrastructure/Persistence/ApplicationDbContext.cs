@@ -34,6 +34,16 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
              
              entity.Property(u => u.VehicleDetails)
                  .HasMaxLength(500);
+
+             entity.Property(u => u.PasswordHash)
+               .IsRequired();
+
+             entity.Property(u => u.PasswordSalt)
+                 .IsRequired();
+
+             entity.Property(u => u.Role)
+                 .IsRequired()
+                 .HasMaxLength(50);
          });
 
 

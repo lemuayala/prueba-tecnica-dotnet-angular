@@ -41,5 +41,26 @@ namespace TravelSharing.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado durante el registro.");
             }
         }
+
+        [HttpPost("login")]
+        [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)] // Para credenciales inválidas o mal formato
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)] // Para credenciales incorrectas
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<LoginResponseDto>> Login(LoginUserDto loginUserDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var loginResponse = await _userService.LoginAsync(loginUserDto);
+                return Ok(loginResponse);
+            }
+            catch (UnauthorizedAccessException ex) { return Unauthorized(new { message = ex.Message }); }
+            catch (Exception ex) { return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado durante el inicio de sesión."); }
+        }
     }
 }

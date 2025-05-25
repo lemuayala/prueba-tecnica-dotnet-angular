@@ -4,6 +4,7 @@ import { provideState } from '@ngrx/store';
 import { userFeature } from './features/users/store/user.reducer';
 import { UserFormComponent } from './features/users/components/user-form/user-form.component';
 import { UserListComponent } from './features/users/components/user-list/user-list.component';
+import { authGuard } from './features/auth/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -14,9 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    providers: [
-      provideState(userFeature), // Registra el reducer y los selectores del feature
-    ],
+    canActivate: [authGuard],
     children: [
       { path: 'new', component: UserFormComponent },
       { path: 'edit/:id', component: UserFormComponent },

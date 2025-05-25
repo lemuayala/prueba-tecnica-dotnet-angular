@@ -32,6 +32,14 @@ export interface UserEntityState extends EntityState<User> {
   error: any | null;
   creating: boolean;
   createError: any | null;
+  registering: boolean;
+  registerError: any | null;
+  // Nuevos estados para el login
+  loggingIn: boolean;
+  loginError: any | null;
+  isAuthenticated: boolean;
+  currentUser: import('../models/auth.model').LoginResponseDto | null; // O un subconjunto
+  authToken: string | null;
 }
 
 export const userAdapter: EntityAdapter<User> = createEntityAdapter<User>();
@@ -43,6 +51,14 @@ export const initialUserEntityState: UserEntityState =
     error: null,
     creating: false,
     createError: null,
+    registering: false,
+    registerError: null,
+    // Estados iniciales para login
+    loggingIn: false,
+    loginError: null,
+    isAuthenticated: false,
+    currentUser: null,
+    authToken: null,
   });
 
 // Combina el estado de la entidad y el estado del formulario
@@ -88,7 +104,7 @@ const userFeatureReducer = createReducer(
     users: { ...state.users, loading: false, error },
   })),
 
-  // Acciones de Crear Usuario (ya estaban)
+  // Acciones de Crear Usuario
   on(UserActions.createUser, (state) => ({
     ...state,
     users: { ...state.users, creating: true, createError: null },
@@ -102,6 +118,7 @@ const userFeatureReducer = createReducer(
     users: { ...state.users, creating: false, createError: error },
   })),
 
+  // Acciones para Eliminar Usuario
   on(UserActions.deleteUserSuccess, (state, { id }) => ({
     ...state,
     users: userAdapter.removeOne(id, state.users),
@@ -117,7 +134,73 @@ const userFeatureReducer = createReducer(
     ...state,
     // Reseteamos al estado inicial del formulario
     userForm: initialUserFormState,
-  }))
+  })),
+
+  // Acciones para el Registro de Usuario
+  on(UserActions.registerUser, (state) => ({
+    ...state,
+    users: { ...state.users, registering: true, registerError: null },
+  })),
+  on(UserActions.registerUserSuccess, (state, { user }) => ({
+    ...state,
+
+    users: userAdapter.addOne(user, { ...state.users, registering: false }),
+  })),
+  on(UserActions.registerUserFailure, (state, { error }) => ({
+    ...state,
+    users: { ...state.users, registering: false, registerError: error },
+  })),
+
+  // Acciones para el Login de Usuario
+  on(UserActions.loginUser, (state) => ({
+    ...state,
+    users: {
+      ...state.users,
+      loggingIn: true,
+      loginError: null,
+      isAuthenticated: false,
+      currentUser: null,
+      authToken: null,
+    },
+  })),
+  on(UserActions.loginUserSuccess, (state, { response }) => ({
+    ...state,
+    users: {
+      ...state.users,
+      loggingIn: false,
+      isAuthenticated: true,
+      currentUser: response,
+      authToken: response.token,
+      loginError: null,
+    },
+  })),
+  on(UserActions.loginUserFailure, (state, { error }) => ({
+    ...state,
+    users: {
+      ...state.users,
+      loggingIn: false,
+      isAuthenticated: false,
+      loginError: error,
+      currentUser: null,
+      authToken: null,
+    },
+  })),
+
+  // Acción para rehidratar el estado de autenticación
+  on(UserActions.rehydrateAuthState, (state, { response }) => {
+    if (response && response.token) {
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          isAuthenticated: true,
+          currentUser: response,
+          authToken: response.token,
+        },
+      };
+    }
+    return state; // Si no hay datos válidos para rehidratar, devolver el estado actual
+  })
 );
 
 // Envuelve el reducer con la lógica de ngrx-forms y aplica validación

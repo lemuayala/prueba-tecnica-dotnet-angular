@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelSharing.Application.DTOs.User;
 using TravelSharing.Application.Interfaces;
@@ -6,6 +7,7 @@ namespace TravelSharing.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class UsersController : ControllerBase
 {
    private readonly IUserService _userService;

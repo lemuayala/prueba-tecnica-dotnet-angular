@@ -6,16 +6,18 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Material from '@primeng/themes/material';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { UserEffects } from './features/users/store/user.effects';
 import { NgrxFormsModule } from 'ngrx-forms';
 import { FormsModule } from '@angular/forms';
+import { authInterceptor } from './features/auth/interceptors/auth.interceptor';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { userFeature } from './features/users/store/user.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,8 +46,8 @@ import { MessageService } from 'primeng/api';
       },
       inputStyle: 'outlined',
     }),
-    provideHttpClient(),
-    provideStore(),
+    provideHttpClient(withInterceptors([authInterceptor])),
+    provideStore({ [userFeature.name]: userFeature.reducer }),
     provideEffects(UserEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     MessageService,

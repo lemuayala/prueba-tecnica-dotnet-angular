@@ -48,4 +48,12 @@ public interface IUserService
     /// <param name="registerUserDto"></param>
     /// <returns>El DTO del usuario recién creado.</returns>
     Task<UserDto> RegisterUserAsync(RegisterUserDto registerUserDto);
+
+    /// <summary>
+    /// Autentica a un usuario basado en sus credenciales.
+    /// </summary>
+    /// <param name="loginUserDto">DTO que contiene el email y la contraseña del usuario.</param>
+    /// <returns>Un DTO con el token JWT y la información del usuario si la autenticación es exitosa.</returns>
+    /// <exception cref="UnauthorizedAccessException">Se lanza si las credenciales son inválidas.</exception>
+    Task<LoginResponseDto> LoginAsync(LoginUserDto loginUserDto);
 }

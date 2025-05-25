@@ -1,11 +1,16 @@
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using TravelSharing.Application.DTOs.Auth;
 using TravelSharing.Application.DTOs.User;
 using TravelSharing.Application.Interfaces;
 using TravelSharing.Domain.Entities;
 using TravelSharing.Domain.Interfaces;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TravelSharing.Application.Services;
 
@@ -15,12 +20,13 @@ public class UserService : IUserService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILogger<UserService>? _logger;
+    private readonly IConfiguration _configuration;
 
-    public UserService(IUnitOfWork unitOfWork, IMapper mapper
-    , ILogger<UserService>? logger = null)
+    public UserService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, ILogger<UserService>? logger = null)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         _logger = logger;
     }
 
@@ -40,6 +46,7 @@ public class UserService : IUserService
 
         return userDto;
     }
+
     public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
     {
         _logger?.LogInformation("Attempting to get all user entities.");
@@ -151,5 +158,73 @@ public class UserService : IUserService
         //Mapear a UserDto y retornar
         var createdUserDto = _mapper.Map<UserDto>(userEntity);
         return createdUserDto;
+    }
+
+    public async Task<LoginResponseDto> LoginAsync(LoginUserDto loginUserDto)
+    {
+        _logger?.LogInformation("Attempting to login user with email: {UserEmail}", loginUserDto.Email);
+
+        var userEntity = await _unitOfWork.Users.GetByEmailAsync(loginUserDto.Email);
+
+        if (userEntity == null)
+        {
+            _logger?.LogWarning("Login failed. User with email {UserEmail} not found.", loginUserDto.Email);
+            throw new UnauthorizedAccessException("Credenciales inválidas.");
+        }
+
+        // Verificar la contraseña
+        if (!VerifyPasswordHash(loginUserDto.Password, userEntity.PasswordHash, userEntity.PasswordSalt))
+        {
+            _logger?.LogWarning("Login failed. Invalid password for user {UserEmail}.", loginUserDto.Email);
+            throw new UnauthorizedAccessException("Credenciales inválidas.");
+        }
+
+        _logger?.LogInformation("User {UserEmail} authenticated successfully. Generating JWT.", loginUserDto.Email);
+
+        // Generar Token JWT
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]
+            ?? throw new InvalidOperationException("JWT Key is not configured."));
+
+        var claims = new List<Claim>
+            {
+                new (JwtRegisteredClaimNames.Sub, userEntity.Id.ToString()), // Subject (ID del usuario)
+                new (JwtRegisteredClaimNames.Email, userEntity.Email),
+                new (JwtRegisteredClaimNames.Name, userEntity.Name),
+                new (ClaimTypes.Role, userEntity.Role), // Rol del usuario
+                new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // JWT ID, para unicidad
+            };
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddHours(Convert.ToDouble(_configuration["Jwt:DurationInHours"] ?? "1")), // Duración del token
+            Issuer = _configuration["Jwt:Issuer"],
+            Audience = _configuration["Jwt:Audience"],
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        var tokenString = tokenHandler.WriteToken(token);
+
+        return new LoginResponseDto
+        {
+            Token = tokenString,
+            Expiration = tokenDescriptor.Expires ?? DateTime.UtcNow.AddHours(1),
+            UserId = userEntity.Id.ToString(),
+            Email = userEntity.Email,
+            Name = userEntity.Name,
+            Role = userEntity.Role
+        };
+    }
+
+    private static bool VerifyPasswordHash(string password, string storedHash, string storedSalt)
+    {
+        byte[] saltBytes = Convert.FromBase64String(storedSalt);
+        var pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, 10000, HashAlgorithmName.SHA256);
+        byte[] hashBytes = pbkdf2.GetBytes(32); // 256 bits
+        var computedHash = Convert.ToBase64String(hashBytes);
+
+        return computedHash == storedHash;
     }
 }

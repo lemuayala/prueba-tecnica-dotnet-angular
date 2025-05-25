@@ -2,7 +2,11 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity'; // Para actualizaciones parciales
 import { User, CreateUserDto, UpdateUserDto } from '../models/user.model';
 import { UserFormValue } from './user.reducer'; // Importa el tipo del valor del formulario
-import { RegisterUserDto } from '../models/auth.model';
+import {
+  RegisterUserDto,
+  LoginUserDto,
+  LoginResponseDto,
+} from '../models/auth.model';
 
 export const UserApiActions = createActionGroup({
   source: 'User API',
@@ -32,9 +36,16 @@ export const UserApiActions = createActionGroup({
 export const AuthApiActions = createActionGroup({
   source: 'Auth API',
   events: {
+    // Register User
     'Register User': props<{ user: RegisterUserDto }>(),
     'Register User Success': props<{ user: User }>(),
     'Register User Failure': props<{ error: any }>(),
+    // Login User
+    'Login User': props<{ credentials: LoginUserDto }>(),
+    'Login User Success': props<{ response: LoginResponseDto }>(),
+    'Login User Failure': props<{ error: any }>(),
+    // Acción para rehidratar el estado de autenticación desde localStorage
+    'Rehydrate Auth State': props<{ response: LoginResponseDto | null }>(),
   },
 });
 

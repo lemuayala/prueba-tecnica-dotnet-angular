@@ -17,6 +17,7 @@ import { User } from '../models/user.model';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { LoginResponseDto } from '../models/auth.model';
 
 @Injectable()
 export class UserEffects {
@@ -109,8 +110,9 @@ export class UserEffects {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: `Error al crear usuario: ${error.message || 'Intente de nuevo'
-              }`,
+            detail: `Error al crear usuario: ${
+              error.message || 'Intente de nuevo'
+            }`,
           });
         })
       );
@@ -145,8 +147,9 @@ export class UserEffects {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: `Error al actualizar usuario: ${error.message || 'Intente de nuevo'
-              }`,
+            detail: `Error al actualizar usuario: ${
+              error.message || 'Intente de nuevo'
+            }`,
           });
         })
       );
@@ -191,12 +194,81 @@ export class UserEffects {
       return this.actions$.pipe(
         ofType(UserActions.registerUserFailure),
         tap(({ error }) => {
-          const detail = error?.error?.message ||
+          const detail =
+            error?.error?.message ||
             error?.message ||
             'Ocurrió un error. Intente de nuevo.';
           this.messageService.add({
             severity: 'error',
             summary: 'Error de Registro',
+            detail: detail,
+          });
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  // Efecto para el login de usuario
+  loginUser$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.loginUser),
+      // Usamos exhaustMap para ignorar nuevos intentos de login mientras uno está en progreso
+      exhaustMap((action) =>
+        this.userService.loginUser(action.credentials).pipe(
+          map((response: LoginResponseDto) =>
+            UserActions.loginUserSuccess({ response })
+          ),
+          catchError((error) => of(UserActions.loginUserFailure({ error })))
+        )
+      )
+    );
+  });
+
+  // Efecto para manejar el éxito del login
+  loginUserSuccess$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UserActions.loginUserSuccess),
+        tap(({ response }) => {
+          // Guardar token e información relevante en localStorage
+          localStorage.setItem('authToken', response.token);
+          localStorage.setItem(
+            'currentUser',
+            JSON.stringify({
+              userId: response.userId,
+              email: response.email,
+              name: response.name,
+              role: response.role,
+            })
+          );
+          localStorage.setItem('tokenExpiration', response.expiration);
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Inicio de Sesión Exitoso',
+            detail: `¡Bienvenido de nuevo, ${response.name}!`,
+          });
+          this.router.navigate(['/users/list']); // Redirigir a la lista de usuarios
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  // Efecto para manejar el fallo del login
+  loginUserFailure$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UserActions.loginUserFailure),
+        tap(({ error }) => {
+          const detail =
+            error?.error?.message ||
+            error?.message ||
+            'Credenciales incorrectas o error en el servidor.';
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error de Inicio de Sesión',
             detail: detail,
           });
         })

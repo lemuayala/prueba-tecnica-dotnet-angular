@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User, CreateUserDto, UpdateUserDto } from '../models/user.model';
 import { environment } from '../../../../environments/environment';
-import { RegisterUserDto } from '../models/auth.model';
+import { RegisterUserDto, LoginUserDto, LoginResponseDto } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,5 +36,9 @@ export class UserService {
 
   registerUser(user: RegisterUserDto): Observable<User> {
     return this.http.post<User>(`${this.authUrl}/register`, user);
+  }
+
+  loginUser(credentials: LoginUserDto): Observable<LoginResponseDto> {
+    return this.http.post<LoginResponseDto>(`${this.authUrl}/login`, credentials);
   }
 }

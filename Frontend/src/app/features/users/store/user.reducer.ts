@@ -200,7 +200,20 @@ const userFeatureReducer = createReducer(
       };
     }
     return state; // Si no hay datos válidos para rehidratar, devolver el estado actual
-  })
+  }),
+
+  // Acción para Logout
+  on(UserActions.logoutUser, (state) => ({
+    ...state,
+    users: {
+      ...state.users,
+      isAuthenticated: false,
+      currentUser: null,
+      authToken: null,
+      loginError: null,
+      registerError: null,
+    },
+  }))
 );
 
 // Envuelve el reducer con la lógica de ngrx-forms y aplica validación

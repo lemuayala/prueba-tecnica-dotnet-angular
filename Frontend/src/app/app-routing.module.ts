@@ -5,6 +5,7 @@ import { userFeature } from './features/users/store/user.reducer';
 import { UserFormComponent } from './features/users/components/user-form/user-form.component';
 import { UserListComponent } from './features/users/components/user-list/user-list.component';
 import { authGuard } from './features/auth/guards/auth.guard';
+import { publicGuard } from './features/auth/guards/public.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () =>
       import('./features/auth/auth.module').then((m) => m.AuthModule),
+    canActivate: [publicGuard],
   },
   {
     path: 'users',

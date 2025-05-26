@@ -276,4 +276,24 @@ export class UserEffects {
     },
     { dispatch: false }
   );
+
+  logoutUser$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UserActions.logoutUser),
+        tap(() => {
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('currentUser');
+          localStorage.removeItem('tokenExpiration');
+          this.router.navigate(['/auth/login']);
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Sesión Cerrada',
+            detail: 'Has cerrado sesión exitosamente.',
+          });
+        })
+      );
+    },
+    { dispatch: false }
+  );
 }

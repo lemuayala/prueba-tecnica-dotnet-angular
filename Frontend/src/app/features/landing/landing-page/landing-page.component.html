@@ -1,0 +1,281 @@
+<div
+  class="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-200"
+>
+  <!-- Hero Section -->
+  <section
+    class="relative h-screen flex items-center justify-center overflow-hidden"
+  >
+    <div class="absolute inset-0 z-0">
+      <img
+        src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+        alt="Viaje escénico"
+        class="w-full h-full object-cover opacity-50 dark:opacity-40"
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"
+      ></div>
+    </div>
+
+    <div class="relative z-10 text-center p-8 max-w-3xl mx-auto">
+      <h1
+        class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-4 md:mb-6 leading-tight tracking-tight"
+      >
+        <span class="block">Tu Próxima Aventura,</span>
+        <span
+          class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-500 to-indigo-500"
+          >Compartida.</span
+        >
+      </h1>
+      <p
+        class="text-lg md:text-xl lg:text-2xl text-slate-200/90 mb-10 max-w-xl mx-auto"
+      >
+        Conectamos viajeros y conductores. Ahorrá, conocé gente y viajá de forma
+        más inteligente.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+        <a
+          routerLink="/auth/register"
+          class="w-full sm:w-auto inline-block bg-gradient-to-r from-cyan-500 via-sky-600 to-indigo-600 hover:from-cyan-600 hover:via-sky-700 hover:to-indigo-700 text-white font-bold py-3 px-6 md:py-3.5 md:px-8 rounded-lg text-sm md:text-base shadow-lg hover:shadow-xl transform transition-all duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-slate-950"
+        >
+          ¡Registrate Ahora!
+        </a>
+        <a
+          routerLink="/auth/login"
+          class="w-full sm:w-auto inline-block bg-white/10 hover:bg-white/20 backdrop-blur-sm text-slate-100 font-semibold py-3 px-6 md:py-3.5 md:px-8 rounded-lg text-sm md:text-base border-2 border-white/40 hover:border-white/80 transform transition-all duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-slate-950"
+        >
+          Iniciar Sesión
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Estadísticas/Beneficios Clave -->
+  <section #statsSection class="py-16 md:py-24 bg-slate-50 dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2
+          class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white tracking-tight"
+        >
+          ¿Por Qué TravelSharing?
+        </h2>
+        <p
+          class="mt-4 text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
+        >
+          Descubrí una nueva forma de moverte.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <!-- Card 1 -->
+        <div
+          class="p-6 md:p-8 bg-white dark:bg-slate-800/60 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1"
+        >
+          <div class="text-sky-500 dark:text-sky-400 mb-4">
+            <!-- Icono (ej. FontAwesome o Heroicons) -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-12 w-12 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+          </div>
+          <h3
+            class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white mb-2"
+          >
+            +<span class="count-up">{{ currentTrips | number }}</span> Viajes
+          </h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base">
+            Conectando destinos y personas cada día.
+          </p>
+        </div>
+        <!-- Card 2 -->
+        <div
+          class="p-6 md:p-8 bg-white dark:bg-slate-800/60 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1"
+        >
+          <div class="text-cyan-500 dark:text-cyan-400 mb-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-12 w-12 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599.97m-5.198-.97A7.960 7.960 0 0112 6c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4S9.79 6 12 6z"
+              />
+            </svg>
+          </div>
+          <h3
+            class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white mb-2"
+          >
+            Ahorro Promedio <span class="count-up">{{ currentSavings }}</span
+            >%
+          </h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base">
+            Viajá más gastando menos en cada trayecto.
+          </p>
+        </div>
+        <!-- Card 3 -->
+        <div
+          class="p-6 md:p-8 bg-white dark:bg-slate-800/60 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1"
+        >
+          <div class="text-emerald-500 dark:text-emerald-400 mb-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-12 w-12 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </div>
+          <h3
+            class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white mb-2"
+          >
+            Comunidad Confiable
+          </h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base">
+            Perfiles verificados y valoraciones de usuarios.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección Cómo Funciona -->
+  <section class="py-16 md:py-24 bg-slate-100 dark:bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12 md:mb-16">
+        <h2
+          class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white tracking-tight"
+        >
+          Simple y Rápido
+        </h2>
+        <p
+          class="mt-4 text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
+        >
+          Empezá a compartir viajes en minutos.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
+        <div class="text-center">
+          <div
+            class="flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-sky-500 to-indigo-600 text-white text-2xl font-bold mx-auto mb-6 shadow-lg"
+          >
+            1
+          </div>
+          <h3
+            class="text-lg md:text-xl font-semibold text-slate-900 dark:text-white mb-2"
+          >
+            Registrate Gratis
+          </h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base">
+            Creá tu perfil en segundos y contanos sobre vos.
+          </p>
+        </div>
+        <div class="text-center">
+          <div
+            class="flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-sky-500 to-indigo-600 text-white text-2xl font-bold mx-auto mb-6 shadow-lg"
+          >
+            2
+          </div>
+          <h3
+            class="text-lg md:text-xl font-semibold text-slate-900 dark:text-white mb-2"
+          >
+            Buscá u Ofrecé Viajes
+          </h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base">
+            Encontrá el viaje perfecto o publicá tus asientos libres.
+          </p>
+        </div>
+        <div class="text-center">
+          <div
+            class="flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-sky-500 to-indigo-600 text-white text-2xl font-bold mx-auto mb-6 shadow-lg"
+          >
+            3
+          </div>
+          <h3
+            class="text-lg md:text-xl font-semibold text-slate-900 dark:text-white mb-2"
+          >
+            ¡Viajá y Ahorrá!
+          </h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base">
+            Disfrutá del viaje, conocé gente y reducí tus gastos.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Medios de Pago  -->
+  <section class="py-16 md:py-24 bg-slate-50 dark:bg-slate-900">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2
+        class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight"
+      >
+        Pagos Seguros y Fáciles
+      </h2>
+      <p
+        class="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto"
+      >
+        Gestionamos los pagos de forma segura para tu tranquilidad. Aceptamos
+        las principales tarjetas y métodos de pago.
+      </p>
+      <div class="flex justify-center items-center space-x-4">
+        <span class="text-4xl text-slate-500 dark:text-slate-400">💳</span>
+        <span class="text-4xl text-slate-500 dark:text-slate-400">📱</span>
+        <span class="text-4xl text-slate-500 dark:text-slate-400">💻</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action Final -->
+  <section
+    class="py-16 md:py-24 bg-gradient-to-br from-sky-600 via-indigo-700 to-slate-900"
+  >
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2
+        class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 tracking-tight"
+      >
+        ¿Listo para tu Próximo Viaje?
+      </h2>
+      <p class="text-lg md:text-xl text-sky-100/90 mb-8">
+        Unite a la comunidad de TravelSharing hoy mismo.
+      </p>
+      <a
+        routerLink="/auth/register"
+        class="inline-block bg-white text-sky-700 hover:bg-sky-50 font-bold py-3 px-6 md:py-3.5 md:px-8 rounded-lg text-sm md:text-base shadow-lg hover:shadow-xl transform transition-all duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-sky-800"
+      >
+        Crear Cuenta Gratis
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 bg-slate-200 dark:bg-black text-center">
+    <p class="text-slate-600 dark:text-slate-400">
+      &copy; {{ currentYear }} TravelSharing. Todos los derechos reservados.
+    </p>
+  </footer>
+</div>

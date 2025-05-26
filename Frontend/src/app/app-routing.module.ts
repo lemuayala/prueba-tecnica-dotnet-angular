@@ -6,9 +6,9 @@ import { UserFormComponent } from './features/users/components/user-form/user-fo
 import { UserListComponent } from './features/users/components/user-list/user-list.component';
 import { authGuard } from './features/auth/guards/auth.guard';
 import { publicGuard } from './features/auth/guards/public.guard';
-
+import { LandingPageComponent } from './features/landing/landing-page/landing-page.component'; //
 const routes: Routes = [
-  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+  { path: '', component: LandingPageComponent, canActivate: [publicGuard] },
   {
     path: 'auth',
     loadChildren: () =>

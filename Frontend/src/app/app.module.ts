@@ -19,9 +19,10 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { userFeature } from './features/users/store/user.reducer';
 import { HeaderComponent } from './features/shared/components/header/header.component';
+import { LandingPageComponent } from './features/landing/landing-page/landing-page.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent, HeaderComponent, LandingPageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

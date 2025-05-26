@@ -1,5 +1,10 @@
 <p-toast />
 <app-header></app-header>
-<main class="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<main
+  [ngClass]="{
+    'pt-16': !isLandingPage,
+    'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8': !isLandingPage
+  }"
+>
   <router-outlet></router-outlet>
 </main>

@@ -2,6 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UserActions } from './features/users/store/user.actions';
 import { LoginResponseDto } from './features/users/models/auth.model';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/internal/operators/filter';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +14,25 @@ import { LoginResponseDto } from './features/users/models/auth.model';
 export class AppComponent implements OnInit {
   title = 'travel-sharing-frontend';
   private store = inject(Store);
+  private router = inject(Router);
+
+  isLandingPage = false;
 
   ngOnInit(): void {
     this.tryRehydrateAuthState();
+
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
+      .subscribe((event: NavigationEnd) => {
+        this.isLandingPage =
+          event.urlAfterRedirects === '/' ||
+          event.urlAfterRedirects === '/auth/login' ||
+          event.urlAfterRedirects === '/auth/register';
+      });
   }
 
   private tryRehydrateAuthState(): void {

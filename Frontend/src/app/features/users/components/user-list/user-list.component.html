@@ -4,7 +4,7 @@
     <p-button
       label="Nuevo Usuario"
       icon="pi pi-plus"
-      styleClass="p-button-success"
+      styleClass="p-button-success p-button-sm"
       (click)="navigateToCreateUser()"
     ></p-button>
   </div>
@@ -29,7 +29,7 @@
   ></p-message>
 
   <!-- Tabla de Usuarios -->
-  <div class="card shadow-md rounded-lg overflow-hidden">
+  <div class="card shadow-md rounded-lg">
     <!-- Contenedor con sombra y bordes redondeados -->
     <p-table
       *ngIf="!(loading$ | async) && !(error$ | async)"

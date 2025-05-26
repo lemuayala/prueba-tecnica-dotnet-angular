@@ -2,6 +2,8 @@
 
 ¡Hola! 👋 Este es el repositorio del proyecto técnico para un **sistema de compartición de viajes interurbanos**. Una solución completa con un backend robusto y un frontend moderno y reactivo.
 
+![image](https://github.com/user-attachments/assets/86f72387-3695-46e5-a5d6-fc121e0d58ec)
+
 ## Descripción
 
 El objetivo es crear una plataforma funcional y atractiva donde los usuarios puedan ofrecer y encontrar viajes compartidos entre ciudades. Combina la potencia de .NET 9 en el backend con la flexibilidad de Angular 19 en el frontend.

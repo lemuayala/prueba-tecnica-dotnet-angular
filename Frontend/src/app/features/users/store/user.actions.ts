@@ -46,6 +46,8 @@ export const AuthApiActions = createActionGroup({
     'Login User Failure': props<{ error: any }>(),
     // Acción para rehidratar el estado de autenticación desde localStorage
     'Rehydrate Auth State': props<{ response: LoginResponseDto | null }>(),
+    // Logout User
+    'Logout User': emptyProps(),
   },
 });
 

@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { provideState } from '@ngrx/store';
-import { userFeature } from './features/users/store/user.reducer';
 import { UserFormComponent } from './features/users/components/user-form/user-form.component';
 import { UserListComponent } from './features/users/components/user-list/user-list.component';
 import { authGuard } from './features/auth/guards/auth.guard';
 import { publicGuard } from './features/auth/guards/public.guard';
-import { LandingPageComponent } from './features/landing/landing-page/landing-page.component'; //
+import { LandingPageComponent } from './features/landing/landing-page/landing-page.component';
 const routes: Routes = [
   { path: '', component: LandingPageComponent, canActivate: [publicGuard] },
   {
